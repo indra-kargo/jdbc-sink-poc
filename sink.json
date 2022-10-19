@@ -1,0 +1,19 @@
+{
+    "name": "users-sink",
+    "config": {
+        "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "connection.url": "jdbc:postgresql://postgres:5432/postgres?verifyServerCertificate=false&useSSL=false&requireSSL=false",
+        "connection.user": "postgres",
+        "connection.password": "postgres",
+        "topics": "postgres.public.users",
+        "auto.evolve": true,
+        "insert.mode": "upsert",
+        "delete.enabled": true,
+        "pk.fields": "id",
+        "pk.mode": "record_key",
+        "transforms": "dropprefix",
+        "transforms.dropprefix.type": "org.apache.kafka.connect.transforms.RegexRouter",
+        "transforms.dropprefix.regex": "(.*).users",
+        "transforms.dropprefix.replacement": "$1.users_sink"
+    }
+}
